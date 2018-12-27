@@ -88,7 +88,7 @@
 `sauid` | Records the sender Audit login user ID. This ID is provided by D-Bus as the kernel is unable to see which user is sending the original auid.
 `ses` | Records the session ID of the session from which the analyzed process was invoked.
 **`sgid`** | Records the set group ID of the user who started the analyzed process.
-**`sig`** | Records the number of a signal that causes a program to end abnormally. Usually, __this is a sign of a system intrusion.__
+**`sig`** | Records the number of a signal that causes a program to end abnormally. Usually, _this is a sign of a system intrusion._
 `subj` | Records the SELinux context of a subject. A subject can be a process, a user, or anything that is acting upon an object.
 `subj_clr` | Records the SELinux clearance of a subject.
 `subj_role` | Records the SELinux role of a subject.
