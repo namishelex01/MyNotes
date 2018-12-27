@@ -2,29 +2,29 @@
 |-------------|-------------|
 `ACCT_LOCK` |	Triggered when a user-space user account is locked by the administrator.
 `ACCT_UNLOCK` |	Triggered when a user-space user account is unlocked by the administrator.
-`ADD_GROUP`` |	Triggered when a user-space group is added.
+`ADD_GROUP` |	Triggered when a user-space group is added.
 `ADD_USER` |	Triggered when a user-space user account is added.
-**`ANOM_ABEND[a]`** |	Triggered when a processes ends abnormally (with a signal that could cause a core dump, if enabled).
-**`ANOM_ACCESS_FS[a]`** |	Triggered when a file or a directory access ends abnormally.
-**`ANOM_ADD_ACCT[a]`** |	Triggered when a user-space account addition ends abnormally.
-**`ANOM_AMTU_FAIL[a]`** |	Triggered when a failure of the Abstract Machine Test Utility (AMTU) is detected.
-**`ANOM_CRYPTO_FAIL[a]`** |	Triggered when a failure in the cryptographic system is detected.
-**`ANOM_DEL_ACCT[a]`** |	Triggered when a user-space account deletion ends abnormally.
-**`ANOM_EXEC[a]`** |	Triggered when an execution of a file ends abnormally.
-**`ANOM_LINK[a]`** |	Triggered when suspicious use of file links is detected.
-**`ANOM_LOGIN_ACCT[a]`** |	Triggered when an account login attempt ends abnormally.
-**`ANOM_LOGIN_FAILURES[a]`** |	Triggered when the limit of failed login attempts is reached.
-**`ANOM_LOGIN_LOCATION[a]`** |	Triggered when a login attempt is made from a forbidden location.
-**`ANOM_LOGIN_SESSIONS[a]`** |	Triggered when a login attempt reaches the maximum amount of concurrent sessions.
-**`ANOM_LOGIN_TIME[a]`** |	Triggered when a login attempt is made at a time when it is prevented by, for example, pam_time.
-**`ANOM_MAX_DAC[a]`** |	Triggered when the maximum amount of Discretionary Access Control (DAC) failures is reached.
-**`ANOM_MAX_MAC[a]`** |	Triggered when the maximum amount of Mandatory Access Control (MAC) failures is reached.
-**`ANOM_MK_EXEC[a]`** |	Triggered when a file is made executable.
-**`ANOM_MOD_ACCT[a]`** |	Triggered when a user-space account modification ends abnormally.
-**`ANOM_PROMISCUOUS[a]`** |	Triggered when a device enables or disables promiscuous mode.
-**`ANOM_RBAC_FAIL[a]`** |	Triggered when a Role-Based Access Control (RBAC) self-test failure is detected.
-**`ANOM_RBAC_INTEGRITY_FAIL[a]`** |	Triggered when a Role-Based Access Control (RBAC) file integrity test failure is detected.
-**`ANOM_ROOT_TRANS[a]`** |	Triggered when a user becomes root.
+**`ANOM_ABEND:bangbang:`** |	Triggered when a processes ends abnormally (with a signal that could cause a core dump, if enabled).
+**`ANOM_ACCESS_FS:bangbang:`** |	Triggered when a file or a directory access ends abnormally.
+**`ANOM_ADD_ACCT:bangbang:`** |	Triggered when a user-space account addition ends abnormally.
+**`ANOM_AMTU_FAIL:bangbang:`** |	Triggered when a failure of the Abstract Machine Test Utility (AMTU) is detected.
+**`ANOM_CRYPTO_FAIL:bangbang:`** |	Triggered when a failure in the cryptographic system is detected.
+**`ANOM_DEL_ACCT:bangbang:`** |	Triggered when a user-space account deletion ends abnormally.
+**`ANOM_EXEC:bangbang:`** |	Triggered when an execution of a file ends abnormally.
+**`ANOM_LINK:bangbang:`** |	Triggered when suspicious use of file links is detected.
+**`ANOM_LOGIN_ACCT:bangbang:`** |	Triggered when an account login attempt ends abnormally.
+**`ANOM_LOGIN_FAILURES:bangbang:`** |	Triggered when the limit of failed login attempts is reached.
+**`ANOM_LOGIN_LOCATION:bangbang:`** |	Triggered when a login attempt is made from a forbidden location.
+**`ANOM_LOGIN_SESSIONS:bangbang:`** |	Triggered when a login attempt reaches the maximum amount of concurrent sessions.
+**`ANOM_LOGIN_TIME:bangbang:`** |	Triggered when a login attempt is made at a time when it is prevented by, for example, pam_time.
+**`ANOM_MAX_DAC:bangbang:`** |	Triggered when the maximum amount of Discretionary Access Control (DAC) failures is reached.
+**`ANOM_MAX_MAC:bangbang:`** |	Triggered when the maximum amount of Mandatory Access Control (MAC) failures is reached.
+**`ANOM_MK_EXEC:bangbang:`** |	Triggered when a file is made executable.
+**`ANOM_MOD_ACCT:bangbang:`** |	Triggered when a user-space account modification ends abnormally.
+**`ANOM_PROMISCUOUS:bangbang:`** |	Triggered when a device enables or disables promiscuous mode.
+**`ANOM_RBAC_FAIL:bangbang:`** |	Triggered when a Role-Based Access Control (RBAC) self-test failure is detected.
+**`ANOM_RBAC_INTEGRITY_FAIL:bangbang:`** |	Triggered when a Role-Based Access Control (RBAC) file integrity test failure is detected.
+**`ANOM_ROOT_TRANS:bangbang:`** |	Triggered when a user becomes root.
 `AVC`	| Triggered to record an SELinux permission check.
 `AVC_PATH` |	Triggered to record the dentry and vfsmount pair when an SELinux permission check occurs.
 `BPRM_FCAPS` |	Triggered when a user executes a program with a file system capability.
@@ -68,12 +68,12 @@
 `GRP_AUTH` |	Triggered when a group password is used to authenticate against a user-space group.
 `GRP_CHAUTHTOK` |	Triggered when a group account password or PIN is modified.
 `GRP_MGMT` |	Triggered to record user-space group account attribute modification.
-`INTEGRITY_DATA[b]` |	Triggered to record a data integrity verification event run by the kernel.
-`INTEGRITY_HASH[b]` |	Triggered to record a hash type integrity verification event run by the kernel.
-`INTEGRITY_METADATA[b]` |	Triggered to record a metadata integrity verification event run by the kernel.
-`INTEGRITY_PCR[b]` |	Triggered to record Platform Configuration Register (PCR) invalidation messages.
-`INTEGRITY_RULE[b]` |	Triggered to record a policy rule.
-`INTEGRITY_STATUS[b]` |	Triggered to record the status of integrity verification.
+`INTEGRITY_DATA:black_circle:` |	Triggered to record a data integrity verification event run by the kernel.
+`INTEGRITY_HASH:black_circle:` |	Triggered to record a hash type integrity verification event run by the kernel.
+`INTEGRITY_METADATA:black_circle:` |	Triggered to record a metadata integrity verification event run by the kernel.
+`INTEGRITY_PCR:black_circle:` |	Triggered to record Platform Configuration Register (PCR) invalidation messages.
+`INTEGRITY_RULE:black_circle:` |	Triggered to record a policy rule.
+`INTEGRITY_STATUS:black_circle:` |	Triggered to record the status of integrity verification.
 `IPC` |	Triggered to record information about a Inter-Process Communication object referenced by a system call.
 `IPC_SET_PERM` |	Triggered to record information about new values set by an IPC_SET control operation on an IPC object.
 `KERN_MODULE` |	Triggered to record a kernel module name on load or unload.
@@ -155,6 +155,6 @@
 `VIRT_MACHINE_ID` |	Triggered to record the binding of a label to a virtual machine.
 `VIRT_RESOURCE` |	Triggered to record resource assignment of a virtual machine.
 
-[a] All Audit event types prepended with ANOM are intended to be processed by an intrusion detection program.
-[b] This event type is related to the Integrity Measurement Architecture (IMA), which functions best with a Trusted Platform Module (TPM) chip.
-:red_circle: All Audit event types prepended with RESP are intended responses of an intrusion detection system in case it detects malicious activity on the system.
+> :bangbang: All Audit event types prepended with ANOM are intended to be processed by an intrusion detection program.
+> :black_circle: This event type is related to the Integrity Measurement Architecture (IMA), which functions best with a Trusted Platform Module (TPM) chip.
+> :red_circle: All Audit event types prepended with RESP are intended responses of an intrusion detection system in case it detects malicious activity on the system.
