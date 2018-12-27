@@ -156,5 +156,7 @@
 `VIRT_RESOURCE` |	Triggered to record resource assignment of a virtual machine.
 
 > :bangbang: All Audit event types prepended with ANOM are intended to be processed by an intrusion detection program.
+
 > :black_circle: This event type is related to the Integrity Measurement Architecture (IMA), which functions best with a Trusted Platform Module (TPM) chip.
+
 > :red_circle: All Audit event types prepended with RESP are intended responses of an intrusion detection system in case it detects malicious activity on the system.
