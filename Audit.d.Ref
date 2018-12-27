@@ -1,6 +1,6 @@
 | Event Field	| Explanation |
-|-------------|------------:|
-|a0, a1, a2, a3 | Records the first four arguments of the system call, encoded in hexadecimal notation.
+|-------------|-------------|
+a0, a1, a2, a3 | Records the first four arguments of the system call, encoded in hexadecimal notation.
 acct | Records a user's account name.
 addr | Records the IPv4 or IPv6 address. This field usually follows a hostname field and contains the address the host name resolves to.
 arch | Records information about the CPU architecture of the system, encoded in hexadecimal notation.
