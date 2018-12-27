@@ -101,3 +101,11 @@ terminal | Records the terminal name (without /dev/).
 tty | Records the name of the controlling terminal. The value (none) is used if the process has no controlling terminal.
 uid | Records the real user ID of the user who started the analyzed process.
 vm | Records the name of a virtual machine from which the Audit event originated.
+
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+prom | Records the network promiscuity flag.
