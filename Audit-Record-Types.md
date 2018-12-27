@@ -4,27 +4,27 @@
 `ACCT_UNLOCK` |	Triggered when a user-space user account is unlocked by the administrator.
 `ADD_GROUP` |	Triggered when a user-space group is added.
 `ADD_USER` |	Triggered when a user-space user account is added.
-**`ANOM_ABEND:bangbang:`** |	Triggered when a processes ends abnormally (with a signal that could cause a core dump, if enabled).
-**`ANOM_ACCESS_FS:bangbang:`** |	Triggered when a file or a directory access ends abnormally.
-**`ANOM_ADD_ACCT:bangbang:`** |	Triggered when a user-space account addition ends abnormally.
-**`ANOM_AMTU_FAIL:bangbang:`** |	Triggered when a failure of the Abstract Machine Test Utility (AMTU) is detected.
-**`ANOM_CRYPTO_FAIL:bangbang:`** |	Triggered when a failure in the cryptographic system is detected.
-**`ANOM_DEL_ACCT:bangbang:`** |	Triggered when a user-space account deletion ends abnormally.
-**`ANOM_EXEC:bangbang:`** |	Triggered when an execution of a file ends abnormally.
-**`ANOM_LINK:bangbang:`** |	Triggered when suspicious use of file links is detected.
-**`ANOM_LOGIN_ACCT:bangbang:`** |	Triggered when an account login attempt ends abnormally.
-**`ANOM_LOGIN_FAILURES:bangbang:`** |	Triggered when the limit of failed login attempts is reached.
-**`ANOM_LOGIN_LOCATION:bangbang:`** |	Triggered when a login attempt is made from a forbidden location.
-**`ANOM_LOGIN_SESSIONS:bangbang:`** |	Triggered when a login attempt reaches the maximum amount of concurrent sessions.
-**`ANOM_LOGIN_TIME:bangbang:`** |	Triggered when a login attempt is made at a time when it is prevented by, for example, pam_time.
-**`ANOM_MAX_DAC:bangbang:`** |	Triggered when the maximum amount of Discretionary Access Control (DAC) failures is reached.
-**`ANOM_MAX_MAC:bangbang:`** |	Triggered when the maximum amount of Mandatory Access Control (MAC) failures is reached.
-**`ANOM_MK_EXEC:bangbang:`** |	Triggered when a file is made executable.
-**`ANOM_MOD_ACCT:bangbang:`** |	Triggered when a user-space account modification ends abnormally.
-**`ANOM_PROMISCUOUS:bangbang:`** |	Triggered when a device enables or disables promiscuous mode.
-**`ANOM_RBAC_FAIL:bangbang:`** |	Triggered when a Role-Based Access Control (RBAC) self-test failure is detected.
-**`ANOM_RBAC_INTEGRITY_FAIL:bangbang:`** |	Triggered when a Role-Based Access Control (RBAC) file integrity test failure is detected.
-**`ANOM_ROOT_TRANS:bangbang:`** |	Triggered when a user becomes root.
+**`ANOM_ABEND`** :bangbang: |	Triggered when a processes ends abnormally (with a signal that could cause a core dump, if enabled).
+**`ANOM_ACCESS_FS`** :bangbang: |	Triggered when a file or a directory access ends abnormally.
+**`ANOM_ADD_ACCT`** :bangbang: |	Triggered when a user-space account addition ends abnormally.
+**`ANOM_AMTU_FAIL`** :bangbang: |	Triggered when a failure of the Abstract Machine Test Utility (AMTU) is detected.
+**`ANOM_CRYPTO_FAIL`** :bangbang: |	Triggered when a failure in the cryptographic system is detected.
+**`ANOM_DEL_ACCT`** :bangbang: |	Triggered when a user-space account deletion ends abnormally.
+**`ANOM_EXEC`** :bangbang: |	Triggered when an execution of a file ends abnormally.
+**`ANOM_LINK`** :bangbang: |	Triggered when suspicious use of file links is detected.
+**`ANOM_LOGIN_ACCT`** :bangbang: |	Triggered when an account login attempt ends abnormally.
+**`ANOM_LOGIN_FAILURES`** :bangbang: |	Triggered when the limit of failed login attempts is reached.
+**`ANOM_LOGIN_LOCATION`** :bangbang: |	Triggered when a login attempt is made from a forbidden location.
+**`ANOM_LOGIN_SESSIONS`** :bangbang: |	Triggered when a login attempt reaches the maximum amount of concurrent sessions.
+**`ANOM_LOGIN_TIME`** :bangbang: |	Triggered when a login attempt is made at a time when it is prevented by, for example, pam_time.
+**`ANOM_MAX_DAC`** :bangbang: |	Triggered when the maximum amount of Discretionary Access Control (DAC) failures is reached.
+**`ANOM_MAX_MAC`** :bangbang: |	Triggered when the maximum amount of Mandatory Access Control (MAC) failures is reached.
+**`ANOM_MK_EXEC`** :bangbang: |	Triggered when a file is made executable.
+**`ANOM_MOD_ACCT`** :bangbang: |	Triggered when a user-space account modification ends abnormally.
+**`ANOM_PROMISCUOUS`** :bangbang: |	Triggered when a device enables or disables promiscuous mode.
+**`ANOM_RBAC_FAIL`** :bangbang: |	Triggered when a Role-Based Access Control (RBAC) self-test failure is detected.
+**`ANOM_RBAC_INTEGRITY_FAIL`** :bangbang: |	Triggered when a Role-Based Access Control (RBAC) file integrity test failure is detected.
+**`ANOM_ROOT_TRANS`** :bangbang: |	Triggered when a user becomes root.
 `AVC`	| Triggered to record an SELinux permission check.
 `AVC_PATH` |	Triggered to record the dentry and vfsmount pair when an SELinux permission check occurs.
 `BPRM_FCAPS` |	Triggered when a user executes a program with a file system capability.
@@ -68,12 +68,12 @@
 `GRP_AUTH` |	Triggered when a group password is used to authenticate against a user-space group.
 `GRP_CHAUTHTOK` |	Triggered when a group account password or PIN is modified.
 `GRP_MGMT` |	Triggered to record user-space group account attribute modification.
-`INTEGRITY_DATA:black_circle:` |	Triggered to record a data integrity verification event run by the kernel.
-`INTEGRITY_HASH:black_circle:` |	Triggered to record a hash type integrity verification event run by the kernel.
-`INTEGRITY_METADATA:black_circle:` |	Triggered to record a metadata integrity verification event run by the kernel.
-`INTEGRITY_PCR:black_circle:` |	Triggered to record Platform Configuration Register (PCR) invalidation messages.
-`INTEGRITY_RULE:black_circle:` |	Triggered to record a policy rule.
-`INTEGRITY_STATUS:black_circle:` |	Triggered to record the status of integrity verification.
+`INTEGRITY_DATA` :black_circle: |	Triggered to record a data integrity verification event run by the kernel.
+`INTEGRITY_HASH` :black_circle: |	Triggered to record a hash type integrity verification event run by the kernel.
+`INTEGRITY_METADATA` :black_circle: |	Triggered to record a metadata integrity verification event run by the kernel.
+`INTEGRITY_PCR` :black_circle: |	Triggered to record Platform Configuration Register (PCR) invalidation messages.
+`INTEGRITY_RULE` :black_circle: |	Triggered to record a policy rule.
+`INTEGRITY_STATUS` :black_circle: |	Triggered to record the status of integrity verification.
 `IPC` |	Triggered to record information about a Inter-Process Communication object referenced by a system call.
 `IPC_SET_PERM` |	Triggered to record information about new values set by an IPC_SET control operation on an IPC object.
 `KERN_MODULE` |	Triggered to record a kernel module name on load or unload.
@@ -104,19 +104,19 @@
 `OBJ_PID` |	Triggered to record information about a process to which a signal is sent.
 `PATH` |	Triggered to record file name path information.
 `PROCTITLE` |	Gives the full command-line that triggered this Audit event, triggered by a system call to the kernel.
-**`RESP_ACCT_LOCK[c]`** |	Triggered when a user account is locked.
-**`RESP_ACCT_LOCK_TIMED[c]`** |	Triggered when a user account is locked for a specified period of time.
-**`RESP_ACCT_REMOTE[c]`** |	Triggered when a user account is locked from a remote session.
-**`RESP_ACCT_UNLOCK_TIMED[c]`** |	Triggered when a user account is unlocked after a configured period of time.
-**`RESP_ALERT[c]`** |	Triggered when an alert email is sent.
-**`RESP_ANOMALY[c]`** |	Triggered when an anomaly was not acted upon.
-**`RESP_EXEC[c]`** |	Triggered when an intrusion detection program responds to a threat originating from the execution of a program.
-**`RESP_HALT[c]`** |	Triggered when the system is shut down.
-**`RESP_KILL_PROC[c]`** |	Triggered when a process is terminated.
-**`RESP_SEBOOL[c]`** |	Triggered when an SELinux Boolean value is set.
-**`RESP_SINGLE[c]`** |	Triggered when the system is put into single-user mode.
-**`RESP_TERM_ACCESS[c]`** |	Triggered when a session is terminated.
-**`RESP_TERM_LOCK[c]`** |	Triggered when a terminal is locked.
+**`RESP_ACCT_LOCK`** :red_circle: |	Triggered when a user account is locked.
+**`RESP_ACCT_LOCK_TIMED`** :red_circle: |	Triggered when a user account is locked for a specified period of time.
+**`RESP_ACCT_REMOTE`** :red_circle: |	Triggered when a user account is locked from a remote session.
+**`RESP_ACCT_UNLOCK_TIMED`** :red_circle: |	Triggered when a user account is unlocked after a configured period of time.
+**`RESP_ALERT`** :red_circle: |	Triggered when an alert email is sent.
+**`RESP_ANOMALY`** :red_circle: |	Triggered when an anomaly was not acted upon.
+**`RESP_EXEC`** :red_circle: |	Triggered when an intrusion detection program responds to a threat originating from the execution of a program.
+**`RESP_HALT`** :red_circle: |	Triggered when the system is shut down.
+**`RESP_KILL_PROC`** :red_circle: |	Triggered when a process is terminated.
+**`RESP_SEBOOL`** :red_circle: |	Triggered when an SELinux Boolean value is set.
+**`RESP_SINGLE`** :red_circle: |	Triggered when the system is put into single-user mode.
+**`RESP_TERM_ACCESS`** :red_circle: |	Triggered when a session is terminated.
+**`RESP_TERM_LOCK`** :red_circle: |	Triggered when a terminal is locked.
 `ROLE_ASSIGN` |	Triggered when an administrator assigns a user to an SELinux role.
 `ROLE_MODIFY` |	Triggered when an administrator modifies an SELinux role.
 `ROLE_REMOVE` |	Triggered when an administrator removes a user from an SELinux role.
