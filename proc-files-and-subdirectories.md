@@ -1090,3 +1090,51 @@ This is a directory that contains one subdirectory for each thread in the proces
 Within each of these subdirectories, there is a set of files with the same names and contents as under the /proc/[pid] directories.  For attributes that are shared by all threads, the contents for each of the files under the task/[tid] subdi‐ rectories will be the same as in the corresponding file in the parent  /proc/[pid] directory (e.g., in a multithreaded process, all of the task/[tid]/cwd files will have the same value as the ## /proc/[pid]/cwd file in the parent directory, since all of the threads in a process share a working direc‐ tory).  For attributes that are distinct for each thread, the corresponding files under task/[tid] may have different values (e.g., various fields in each of the task/[tid]/status files may be different for each thread), or they might not exist in /proc/[pid] at all.
 
 In a multithreaded process, the contents of the /proc/[pid]/task directory are not available if the main thread has already terminated (typically by calling pthread_exit(3)).
+
+## /proc/[pid]/task/[tid]/children (since Linux 3.5)
+A space-separated list of child tasks of this task.  Each child task is represented by its TID.
+
+This option is intended for use by the checkpoint-restore (CRIU) system, and reliably provides a list of children only if all of the child processes are sped or frozen.  It does not work properly if children of the target task exit while the file is being read!  Exiting children may cause non-exiting children to be omitted from the list.  This makes this interface even more unreliable than classic PID-based approaches if the inspected task and its children aren't frozen, and most code should probably not use this interface.
+
+Until Linux 4.2, the presence of this file was governed by the CONFIG_CHECKPOINT_RESTORE kernel configuration option.  Since Linux 4.2, it is governed by the CONFIG_PROC_CHILDREN option. 
+
+## /proc/[pid]/timers (since Linux 3.10)
+A list of the POSIX timers for this process.  Each timer is listed with a line that starts with the string "ID:".  For example:
+```
+ID: 1
+signal: 60/00007fff86e452a8
+notify: signal/pid.2634
+ClockID: 0
+ID: 0
+signal: 60/00007fff86e452a8
+notify: signal/pid.2634
+ClockID: 1
+```
+The lines shown for each timer have the following meanings:
+
+* ID - The ID for this timer.  This is not the same as the timer ID returned by timer_create(2); rather, it is the same kernel-internal ID that is available via the si_timerid field of the siginfo_t structure (see sigaction(2)).
+
+* signal - This is the signal number that this timer uses to deliver notifications followed by a slash, and then the sigev_value value supplied to the signal handler. Valid only for timers that notify via a signal. 
+
+* notify - The part before the slash specifies the mechanism that this timer uses to deliver notifications, and is one of "thread", "signal", or "none".  Immediately following the slash is either the string "tid" for timers with SIGEV_THREAD_ID notification, or "pid" for timers that notify by other mechanisms.  Following the "." is the PID of the process (or the kernel thread ID of the thread)  that will be delivered a signal if the timer delivers notifications via a signal.
+
+* ClockID - This field identifies the clock that the timer uses for measuring time.  For most clocks, this is a number that matches one of the user-space CLOCK_* constants exposed via <time.h>.  CLOCK_PROCESS_CPUTIME_ID timers display with a value of -6 in this field. CLOCK_THREAD_CPUTIME_ID timers display with a value of -2 in this field.
+
+This file is available only when the kernel was configured with CONFIG_CHECKPOINT_RESTORE.
+
+## /proc/[pid]/timerslack_ns (since Linux 4.6)
+This file exposes the process's "current" timer slack value, expressed in nanoseconds.  The file is writable, allowing the process's timer slack value to be changed.  Writing 0 to this file resets the "current" timer slack to the "default" timer slack value.  For further details, see the discussion of PR_SET_TIMERSLACK in prctl(2). 
+
+Initially, permission to access this file was governed by a ptrace access mode PTRACE_MODE_ATTACH_FSCREDS check (see ptrace(2)).  However, this was subsequently deemed too strict a requirement (and had the side effect that requiring a process to have the CAP_SYS_PTRACE capability would also allow it to view and change any process's memory).  Therefore, since Linux 4.9, only the (weaker) CAP_SYS_NICE capability is required to access this file. 
+
+## /proc/[pid]/uid_map, ## /proc/[pid]/gid_map (since Linux 3.5)
+See user_namespaces(7).
+
+## /proc/[pid]/wchan (since Linux 2.6.0)
+The symbolic name corresponding to the location in the kernel where the process is sleeping.
+Permission to access this file is governed by a ptrace access mode PTRACE_MODE_READ_FSCREDS check; see ptrace(2).
+
+## /proc/[tid]
+There  is a numerical subdirectory for each running thread that is not a thread group leader (i.e., a thread whose thread ID is not the same as its process ID); the subdirectory is named by the thread ID.  Each one of these subdirectories con‐ tains files and subdirectories exposing information about the thread with the thread ID tid.  The contents of these directories are the same as the corresponding /proc/[pid]/task/[tid] directories. 
+
+The /proc/[tid] subdirectories are not visible when iterating through /proc with getdents(2) (and thus are not visible when one uses ls(1) to view the contents of /proc).  However, the pathnames of these directories are visible to (i.e., usable as arguments in) system calls that operate on pathnames.
