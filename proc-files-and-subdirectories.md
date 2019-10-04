@@ -190,7 +190,7 @@ For example, an epoll file descriptor will have a symbolic link whose content is
 In a multithreaded process, the contents of this directory are not available if the main thread has already terminated (typi‐ cally by calling pthread_exit(3)).
 
 Programs that take a filename as a command-line argument, but don't take input from standard input if no argument is sup‐ plied, and programs that write to a file named as a command- line argument, but don't send their output to standard output if no argument is supplied, can nevertheless be made to use
-standard input or standard output by using ## /proc/[pid]/fd files as command-line arguments.  For example, assuming that -i is the flag designating an input file and -o is the flag designating an output file: 
+standard input or standard output by using /proc/[pid]/fd files as command-line arguments.  For example, assuming that -i is the flag designating an input file and -o is the flag designating an output file: 
 $ foobar -i /proc/self/fd/0 -o /proc/self/fd/1 ...
 
 and you have a working filter.
@@ -230,7 +230,7 @@ pos    This is a decimal number showing the file offset.
 flags  This is an octal number that displays the file access mode and file status flags (see open(2)).  If the close-on-exec file descriptor flag is set, then flags will also include the value O_CLOEXEC. 
 
 Before Linux 3.1, this field incorrectly displayed the setting of O_CLOEXEC at the time the file was opened, rather than the current setting of the close-on-exec flag. 
-mnt_id This field, present since Linux 3.15, is the ID of the mount point containing this file.  See the description of ## /proc/[pid]/mountinfo.
+mnt_id This field, present since Linux 3.15, is the ID of the mount point containing this file.  See the description of /proc/[pid]/mountinfo.
 
 For eventfd file descriptors (see eventfd(2)), we see (since Linux 3.8) the following fields: 
 pos: 0
@@ -365,7 +365,7 @@ cancelled_write_bytes:
 The big inaccuracy here is truncate.  If a process writes 1MB to a file and then deletes the file, it will in fact perform no writeout.  But it will have been accounted as having caused 1MB of write.  In other words: this field represents the number of bytes which
 this process caused to not happen, by truncating page‐ cache.  A task can cause "negative" I/O too.  If this task truncates some dirty pagecache, some I/O which another task has been accounted for (in its write_bytes) will not be happening.
 
-Note: In the current implementation, things are a bit racy on 32-bit systems: if process A reads process B's ## /proc/[pid]/io while process B is updating one of these 64-bit counters, process A could see an intermediate result. 
+Note: In the current implementation, things are a bit racy on 32-bit systems: if process A reads process B's /proc/[pid]/io while process B is updating one of these 64-bit counters, process A could see an intermediate result. 
 
 Permission to access this file is governed by a ptrace access mode PTRACE_MODE_READ_FSCREDS check; see ptrace(2).
 
@@ -437,7 +437,7 @@ There are additional helpful pseudo-paths:
 
 [stack:<tid>] (from Linux 3.4 to 4.4)
   A thread's stack (where the <tid> is a thread ID).
-  It corresponds to the ## /proc/[pid]/task/[tid]/
+  It corresponds to the /proc/[pid]/task/[tid]/
   path.  This field was removed in Linux 4.5, since
   providing this information for a process with
   large numbers of threads is expensive.
@@ -456,7 +456,7 @@ This file can be used to access the pages of a process's mem‐ ory through open
 Permission to access this file is governed by a ptrace access mode PTRACE_MODE_ATTACH_FSCREDS check; see ptrace(2). 
 
 ## /proc/[pid]/mountinfo (since Linux 2.6.26)
-This file contains information about mount points in the process's mount namespace (see mount_namespaces(7)).  It sup‐ plies various information (e.g., propagation state, root of mount for bind mounts, identifier for each mount and its par‐ ent) that is missing from the (older) ## /proc/[pid]/mounts file,
+This file contains information about mount points in the process's mount namespace (see mount_namespaces(7)).  It sup‐ plies various information (e.g., propagation state, root of mount for bind mounts, identifier for each mount and its par‐ ent) that is missing from the (older) /proc/[pid]/mounts file,
 and fixes various other problems with that file (e.g., nonex‐ tensibility, failure to distinguish per-mount versus per- superblock options).
 
 The file contains lines of the form:
@@ -567,7 +567,7 @@ The value of oom_score_adj is added to the badness score before it is used to de
 Consequently, it is very simple for user space to define the amount of memory to consider for each task.  Setting an oom_score_adj value of +500, for example, is roughly equiva‐ lent to allowing the remainder of tasks sharing the same sys‐ tem, cpuset, mempolicy, or memory controller resources to use at least 50% more memory.  A value of -500, on the other hand, would be roughly equivalent to discounting 50% of the task's allowed memory from being considered as scoring against the task. 
 For backward compatibility with previous kernels, /proc/[pid]/oom_adj can still be used to tune the badness score.  Its value is scaled linearly with oom_score_adj.
 
-Writing to ## /proc/[pid]/oom_score_adj or ## /proc/[pid]/oom_adj will change the other with its scaled value.
+Writing to /proc/[pid]/oom_score_adj or /proc/[pid]/oom_adj will change the other with its scaled value.
 
 The choom(1) program provides a command-line interface for adjusting the oom_score_adj value of a running process or a newly executed command.
 
@@ -636,7 +636,7 @@ Permission to dereference or read (readlink(2)) this symbolic link is governed b
 This file can be used to read and change the process's secure computing (seccomp) mode setting.  It contains the value 0 if the process is not in seccomp mode, and 1 if the process is in strict seccomp mode (see seccomp(2)).  Writing 1 to this file places the process irreversibly in strict seccomp mode.  (Fur‐
 ther attempts to write to the file fail with the EPERM error.)
 
-In Linux 2.6.23, this file went away, to be replaced by the prctl(2) PR_GET_SECCOMP and PR_SET_SECCOMP operations (and later by seccomp(2) and the Seccomp field in ## /proc/[pid]/status). 
+In Linux 2.6.23, this file went away, to be replaced by the prctl(2) PR_GET_SECCOMP and PR_SET_SECCOMP operations (and later by seccomp(2) and the Seccomp field in /proc/[pid]/status). 
 
 ## /proc/[pid]/setgroups (since Linux 3.19)
 See user_namespaces(7).
@@ -666,7 +666,7 @@ Locked:                0 kB
 ProtectionKey:         0
 VmFlags: rd ex mr mw me dw
 
-The first of these lines shows the same information as is dis‐ played for the mapping in ## /proc/[pid]/maps.  The following lines show the size of the mapping, the amount of the mapping that is currently resident in RAM ("Rss"), the process's pro‐ portional share of this mapping ("Pss"), the number of clean and dirty shared pages in the mapping, and the number of clean and dirty private pages in the mapping.  "Referenced" indi‐ cates the amount of memory currently marked as referenced or accessed.  "Anonymous" shows the amount of memory that does not belong to any file.  "Swap" shows how much would-be-anonymous memory is also used, but out on swap.
+The first of these lines shows the same information as is dis‐ played for the mapping in /proc/[pid]/maps.  The following lines show the size of the mapping, the amount of the mapping that is currently resident in RAM ("Rss"), the process's pro‐ portional share of this mapping ("Pss"), the number of clean and dirty shared pages in the mapping, and the number of clean and dirty private pages in the mapping.  "Referenced" indi‐ cates the amount of memory currently marked as referenced or accessed.  "Anonymous" shows the amount of memory that does not belong to any file.  "Swap" shows how much would-be-anonymous memory is also used, but out on swap.
 
 The "KernelPageSize" line (available since Linux 2.6.29) is the page size used by the kernel to back the virtual memory area.  This matches the size used by the MMU in the majority of cases.  However, one counter-example occurs on PPC64 ker‐ nels whereby a kernel using 64kB as a base page size may still use 4kB pages for the MMU on older processors.  To distinguish the two attributes, the "MMUPageSize" line (also available since Linux 2.6.29) reports the page size used by the MMU.
 
@@ -850,7 +850,7 @@ The bitmap of ignored signals, displayed as a decimal number.  Obsolete, because
 The bitmap of caught signals, displayed as a decimal number.  Obsolete, because it does not provide information on real-time signals; use /proc/[pid]/status instead.
 
 (35) wchan  %lu  [PT]
-This is the "channel" in which the process is waiting.  It is the address of a location in the kernel where the process is sleeping.  The corresponding symbolic name can be found in ## /proc/[pid]/wchan.
+This is the "channel" in which the process is waiting.  It is the address of a location in the kernel where the process is sleeping.  The corresponding symbolic name can be found in /proc/[pid]/wchan.
 
 (36) nswap  %lu
 Number of pages swapped (not maintained).
@@ -910,18 +910,18 @@ Provides information about memory usage, measured in pages.
 The columns are:
 
 size       (1) total program size
-     (same as VmSize in ## /proc/[pid]/status)
+     (same as VmSize in /proc/[pid]/status)
 resident   (2) resident set size
-     (same as VmRSS in ## /proc/[pid]/status)
+     (same as VmRSS in /proc/[pid]/status)
 shared     (3) number of resident shared pages (i.e., backed by a file)
-     (same as RssFile+RssShmem in ## /proc/[pid]/status)
+     (same as RssFile+RssShmem in /proc/[pid]/status)
 text       (4) text (code)
 lib        (5) library (unused since Linux 2.6; always 0)
 data       (6) data + stack
 dt         (7) dirty pages (unused since Linux 2.6; always 0)
 
 ## /proc/[pid]/status
-Provides much of the information in ## /proc/[pid]/stat and /proc/[pid]/statm in a format that's easier for humans to parse.  Here's an example:
+Provides much of the information in /proc/[pid]/stat and /proc/[pid]/statm in a format that's easier for humans to parse.  Here's an example:
 ```
 $ cat /proc/$$/status
 Name:   bash
@@ -1087,7 +1087,7 @@ Permission to access this file is governed by a ptrace access mode PTRACE_MODE_A
 ## /proc/[pid]/task (since Linux 2.6.0)
 This is a directory that contains one subdirectory for each thread in the process.  The name of each subdirectory is the numerical thread ID ([tid]) of the thread (see gettid(2)).
 
-Within each of these subdirectories, there is a set of files with the same names and contents as under the /proc/[pid] directories.  For attributes that are shared by all threads, the contents for each of the files under the task/[tid] subdi‐ rectories will be the same as in the corresponding file in the parent  /proc/[pid] directory (e.g., in a multithreaded process, all of the task/[tid]/cwd files will have the same value as the ## /proc/[pid]/cwd file in the parent directory, since all of the threads in a process share a working direc‐ tory).  For attributes that are distinct for each thread, the corresponding files under task/[tid] may have different values (e.g., various fields in each of the task/[tid]/status files may be different for each thread), or they might not exist in /proc/[pid] at all.
+Within each of these subdirectories, there is a set of files with the same names and contents as under the /proc/[pid] directories.  For attributes that are shared by all threads, the contents for each of the files under the task/[tid] subdi‐ rectories will be the same as in the corresponding file in the parent  /proc/[pid] directory (e.g., in a multithreaded process, all of the task/[tid]/cwd files will have the same value as the /proc/[pid]/cwd file in the parent directory, since all of the threads in a process share a working direc‐ tory).  For attributes that are distinct for each thread, the corresponding files under task/[tid] may have different values (e.g., various fields in each of the task/[tid]/status files may be different for each thread), or they might not exist in /proc/[pid] at all.
 
 In a multithreaded process, the contents of the /proc/[pid]/task directory are not available if the main thread has already terminated (typically by calling pthread_exit(3)).
 
@@ -1127,7 +1127,7 @@ This file exposes the process's "current" timer slack value, expressed in nanose
 
 Initially, permission to access this file was governed by a ptrace access mode PTRACE_MODE_ATTACH_FSCREDS check (see ptrace(2)).  However, this was subsequently deemed too strict a requirement (and had the side effect that requiring a process to have the CAP_SYS_PTRACE capability would also allow it to view and change any process's memory).  Therefore, since Linux 4.9, only the (weaker) CAP_SYS_NICE capability is required to access this file. 
 
-## /proc/[pid]/uid_map, ## /proc/[pid]/gid_map (since Linux 3.5)
+## /proc/[pid]/uid_map, /proc/[pid]/gid_map (since Linux 3.5)
 See user_namespaces(7).
 
 ## /proc/[pid]/wchan (since Linux 2.6.0)
